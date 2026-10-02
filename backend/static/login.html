@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+
+  <h2>Login Page</h2>
+  
+
+  <input id="email" placeholder="Email" />
+  <input id="password" type="password" placeholder="Password" />
+  <button onclick="loginUser()">Login</button>
+
+  <p id="msg"></p>
+
+  <script>
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("http://127.0.0.1:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // 🔐 store token
+        localStorage.setItem("token", data.access_token);
+
+        document.getElementById("msg").innerText = "Login success";
+
+        // redirect to admin page if admin
+        if (data.is_admin) {
+          window.location.href = "/static/admin.html";
+        } else {
+          window.location.href = "/static/home.html";
+        }
+
+      } else {
+        document.getElementById("msg").innerText = data.detail;
+      }
+    }
+  </script>
+  <script>
+async function loginUser() {
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("http://127.0.0.1:8000/auth/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+        // 🔥 SAVE TOKEN
+        localStorage.setItem("token", data.access_token);
+
+        alert("Login successful");
+
+        // redirect to admin/home page
+        window.location.href = "/static/admin.html";
+    } else {
+        alert(data.detail);
+    }
+}
+</script>
+<script>
+async function loginUser() {
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("http://127.0.0.1:8000/auth/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    });
+
+    const data = await response.json();
+
+    console.log("LOGIN RESPONSE:", data);
+
+    if (response.ok) {
+
+        localStorage.setItem("token", data.access_token);
+
+        alert("Login successful");
+
+        window.location.href = "admin.html";
+
+    } else {
+        alert(data.detail);
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+<h1>👮 Admin Dashboard</h1>
+
+<div style="text-align:right; margin-bottom: 10px;">
+    <button class="delete" onclick="logout()">Logout</button>
+</div>
+
+<div class="cards">
+    <div class="card">
+        <h2 id="totalUsers">0</h2>
+        <p>Total Users</p>
+    </div>
+    <div class="card">
+        <h2 id="activeUsers">0</h2>
+        <p>Active Users</p>
+    </div>
+    <div class="card">
+        <h2 id="blockedUsers">0</h2>
+        <p>Blocked Users</p>
+    </div>
+    <div class="card">
+        <h2 id="totalNotes">0</h2>
+        <p>Total Notes</p>
+    </div>
+</div>
+
+<div id="admin-error" style="color:red; font-weight:bold; margin-bottom:10px;"></div>
+
+<input
+  type="text"
+  id="searchUser"
+  placeholder="Search username..."
+  onkeyup="searchUsers()">
+
+<h3>All Users</h3>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Admin</th>
+      <th>Blocked</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="usersTable"></tbody>
+</table>
+
+<h3 style="margin-top:30px;">All Notes</h3>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Topic</th>
+      <th>Level</th>
+      <th>Created At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="notesTable"></tbody>
+</table>
+
+<script src="admin.js"></script>
+
+</body>
+</html>

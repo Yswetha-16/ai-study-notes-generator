@@ -1,17 +1,13 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Text, DateTime
 from datetime import datetime
-from app.db.session import Base
+from app.db.base import Base
 
 class Note(Base):
     __tablename__ = "notes"
 
     id = Column(Integer, primary_key=True, index=True)
-    topic = Column(String, nullable=False)
+    topic = Column(String, index=True)
+    content = Column(Text)
     level = Column(String, default="intermediate")
     style = Column(String, default="structured")
-    content = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
-
-    user = relationship("User", back_populates="notes")

@@ -1,25 +1,32 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import NullPool
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# NOTE: keep this in an environment variable in real use — hardcoding
+# it here only for local testing convenience.
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://neondb_owner:npg_Igx0ORvnZ1jL@ep-silent-frog-atvcmosp-pooler.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+)
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-# ✅ Safety check added
-if DATABASE_URL is None:
-    raise ValueError("DATABASE_URL is not set in environment variables")
-
-engine = create_engine(DATABASE_URL)
+# fixed: Neon's pooler endpoint (PgBouncer, transaction mode) does its own
+# connection pooling. Layering SQLAlchemy's pool on top of that causes
+# "SSL connection has been closed unexpectedly" errors when Neon silently
+# recycles/drops a connection that SQLAlchemy still thinks is alive —
+# even with pool_pre_ping. NullPool disables SQLAlchemy's pool entirely
+# and opens a fresh connection per request, which Neon's pooler expects.
+engine = create_engine(
+    DATABASE_URL,
+    poolclass=NullPool,
+    pool_pre_ping=True,  # extra safety net, cheap even with NullPool
+)
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=engine
 )
-
-Base = declarative_base()
 
 
 def get_db():

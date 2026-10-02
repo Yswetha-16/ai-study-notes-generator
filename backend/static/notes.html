@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Notes</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+
+    input, textarea {
+      width: 300px;
+      margin: 5px 0;
+      padding: 8px;
+    }
+
+    button {
+      padding: 8px 15px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      border: none;
+      margin-top: 5px;
+    }
+
+    .note {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>📝 My Notes</h2>
+
+<!-- CREATE NOTE -->
+<h3>Create Note</h3>
+
+<input id="topic" placeholder="Topic"><br>
+<textarea id="content" placeholder="Content"></textarea><br>
+
+<button onclick="createNote()">Create Note</button>
+
+<hr>
+
+<!-- NOTES LIST -->
+<h3>All Notes</h3>
+<div id="notesList"></div>
+
+<script>
+const token = localStorage.getItem("token");
+
+// 🚀 Load Notes
+async function loadNotes() {
+  const res = await fetch("http://127.0.0.1:8000/notes", {
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  const notes = await res.json();
+  const box = document.getElementById("notesList");
+  box.innerHTML = "";
+
+  notes.forEach(n => {
+    box.innerHTML += `
+      <div class="note">
+        <h4>${n.topic}</h4>
+        <p>${n.content}</p>
+        <small>${n.created_at}</small>
+      </div>
+    `;
+  });
+}
+
+// ➕ Create Note
+async function createNote() {
+  const topic = document.getElementById("topic").value;
+  const content = document.getElementById("content").value;
+
+  await fetch("http://127.0.0.1:8000/notes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ topic, content })
+  });
+
+  document.getElementById("topic").value = "";
+  document.getElementById("content").value = "";
+
+  loadNotes();
+}
+
+// start
+loadNotes();
+</script>
+<script>
+
+// GET NOTES (READ)
+fetch("http://127.0.0.1:8000/notes", {
+  method: "GET"
+})
+.then(res => res.json())
+.then(data => console.log(data));
+
+
+// POST NOTES (CREATE)
+fetch("http://127.0.0.1:8000/notes", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    topic: "AI",
+    content: "Hello notes"
+  })
+});
+
+</script>
+</body>
+</html>

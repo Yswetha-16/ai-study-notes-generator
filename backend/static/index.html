@@ -4,26 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NoteForge AI — Study Notes Generator</title>
-  <link rel="stylesheet" href="/static/style.css"/>
+
+  <link rel="stylesheet" href="/static/style.css">
+
+  <style>
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+  </style>
+
 </head>
 <body>
-
 <nav>
-  <div class="logo">NoteForge</div>
+  <div class="logo">📖 NoteForge AI</div>
   <div class="nav-links">
     <button onclick="showPage('home')" class="active" id="nav-home">Home</button>
     <button onclick="showPage('generate')" id="nav-generate">Generate</button>
     <button onclick="showPage('history')" id="nav-history">History</button>
     <button onclick="showPage('flashcards')" id="nav-flashcards">Flashcards</button>
-  </div>
+    <button onclick="showPage('admin')" id="nav-admin">Admin</button>
+    <button onclick="showPage('mcq')" id="nav-mcq">MCQ Quiz</button>
+    <button onclick="showPage('exam')" id="nav-exam">
+    ⚡ One Day Before Exam
+</button>
+<button onclick="showPage('examprep')" id="nav-examprep">🎓 Exam Prep</button>
+<button onclick="showPage('study')"id="nav-study">
+  📚 Study Dashboard
+</button>
+
+<button onclick="showPage('mindmap')" id="nav-mindmap">
+    🗺️ Concept Map
+</button>
+    <button onclick="showPage('doubt')" id="nav-doubt">
+  🤖 AI Doubt Solver
+</button>
+</div>
   <div class="nav-right">
     <button class="theme-toggle" onclick="toggleTheme()"></button>
-    <button class="btn btn-outline" id="nav-login" onclick="showPage('login')">Login</button>
-    <button class="btn btn-primary" id="nav-register" onclick="showPage('register')">Sign up</button>
-  </div>
+
+    <button class="btn btn-outline" onclick="showPage('login')">
+        Login
+    </button>
+
+    <button class="btn btn-primary" onclick="showPage('register')">
+        Sign Up
+    </button>
+</div>
 </nav>
 
-<!-- HOME -->
 <div class="page active" id="page-home">
   <div class="hero">
     <div class="hero-badge">✦ AI Powered</div>
@@ -34,30 +66,14 @@
       <button class="btn btn-outline" onclick="showPage('register')">Create free account</button>
     </div>
   </div>
-    <div class="features">
-  <div class="feature-card" onclick="showPage('generate')">
-    <div class="feature-icon">📝</div>
-    <h3>AI-Powered Notes</h3>
-    <p>Generates clear, structured study notes for any subject at your level.</p>
-  </div>
-  <div class="feature-card" onclick="showPage('flashcards')">
-    <div class="feature-icon">🃏</div>
-    <h3>Flashcard Quiz</h3>
-    <p>Turn any topic into interactive flashcards to test your understanding.</p>
-  </div>
-  <div class="feature-card" onclick="showPage('history')">
-    <div class="feature-icon">📚</div>
-    <h3>Notes History</h3>
-    <p>All your generated notes are saved so you can revisit them anytime.</p>
-  </div>
-  <div class="feature-card" onclick="showPage('generate')">
-    <div class="feature-icon">📄</div>
-    <h3>Export as PDF</h3>
-    <p>Download your notes as a clean PDF to study offline or share.</p>
+  <div class="features">
+    <div class="feature-card" onclick="showPage('generate')"><div class="feature-icon">📝</div><h3>AI-Powered Notes</h3><p>Generates clear, structured study notes for any subject at your level.</p></div>
+    <div class="feature-card" onclick="showPage('flashcards')"><div class="feature-icon">🃏</div><h3>Flashcard Quiz</h3><p>Turn any topic into interactive flashcards to test your understanding.</p></div>
+    <div class="feature-card" onclick="showPage('history')"><div class="feature-icon">📚</div><h3>Notes History</h3><p>All your generated notes are saved so you can revisit them anytime.</p></div>
+    <div class="feature-card" onclick="showPage('generate')"><div class="feature-icon">📄</div><h3>Export as PDF</h3><p>Download your notes as a clean PDF to study offline or share.</p></div>
   </div>
 </div>
 
-<!-- LOGIN -->
 <div class="page" id="page-login">
   <div class="auth-wrap"><div class="auth-card">
     <h2>Welcome back</h2><p>Sign in to access your notes.</p>
@@ -68,7 +84,6 @@
   </div></div>
 </div>
 
-<!-- REGISTER -->
 <div class="page" id="page-register">
   <div class="auth-wrap"><div class="auth-card">
     <h2>Create account</h2><p>Start generating AI study notes for free.</p>
@@ -80,7 +95,6 @@
   </div></div>
 </div>
 
-<!-- GENERATE -->
 <div class="page" id="page-generate">
   <div class="gen-wrap">
     <h2>Generate Notes</h2>
@@ -115,7 +129,6 @@
   </div>
 </div>
 
-<!-- HISTORY -->
 <div class="page" id="page-history">
   <div class="hist-wrap">
     <h2>Notes History</h2>
@@ -124,7 +137,6 @@
   </div>
 </div>
 
-<!-- FLASHCARDS -->
 <div class="page" id="page-flashcards">
   <div class="flash-wrap">
     <h2>Flashcards</h2>
@@ -148,8 +160,389 @@
     </div>
   </div>
 </div>
+<div class="page" id="page-admin">
+  <div class="gen-wrap">
+    <h2>Admin Dashboard</h2>
+    <div style="text-align:right;margin-bottom:15px;">
+    <button class="btn btn-primary" onclick="logout()">Logout</button>
+</div>
+    <p>Manage users and notes.</p>
+    <div class="features" style="margin-bottom:2rem">
+      <div class="feature-card"><div class="feature-icon">👥</div><h3 id="total-users">-</h3><p>Total Users</p></div>
+      <div class="feature-card"><div class="feature-icon">✅</div><h3 id="active-users">-</h3><p>Active Users</p></div>
+      <div class="feature-card"><div class="feature-icon">🚫</div><h3 id="blocked-users">-</h3><p>Blocked Users</p></div>
+      <div class="feature-card"><div class="feature-icon">📝</div><h3 id="total-notes">-</h3><p>Total Notes</p></div>
+    </div>
+    <h3 style="margin-bottom:1rem">All Users</h3>
+    <div id="admin-users-grid"></div>
+  </div>
+  <h3 style="margin-top:2rem; margin-bottom:1rem;">All Notes</h3>
+<div id="admin-notes-grid"></div>
+</div>
+<!-- Add this page div to index.html after flashcards page -->
+<!-- ================= MCQ PAGE ================= -->
+<div class="page" id="page-mcq">
+  <div class="gen-wrap">
+    <h2>MCQ Quiz</h2>
+    <p>Test your knowledge with AI-generated multiple choice questions.</p>
+
+    <div class="gen-card" id="mcq-setup">
+      <div class="gen-row">
+        <input type="text" id="mcq-topic" placeholder="e.g. DBMS, Photosynthesis, Arrays…" />
+
+        <select id="mcq-difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+
+        <select id="mcq-count">
+          <option value="3">3 Questions</option>
+          <option value="5" selected>5 Questions</option>
+          <option value="10">10 Questions</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" onclick="generateMCQ()">
+        Generate Quiz
+      </button>
+    </div>
+
+    <div class="loader" id="mcq-loader">
+      <div class="spinner"></div>
+      <p>Generating questions…</p>
+    </div>
+
+    <div id="mcq-quiz-area" style="display:none;">
+
+      <div id="mcq-progress" style="margin-bottom:1.5rem;">
+        <div style="display:flex;justify-content:space-between;">
+          <span id="mcq-progress-text">Question 1 of 5</span>
+          <span id="mcq-score-text">Score: 0</span>
+        </div>
+
+        <div style="background:var(--surface2);height:6px;border-radius:50px;">
+          <div id="mcq-progress-bar"
+               style="width:0%;height:6px;border-radius:50px;"></div>
+        </div>
+      </div>
+
+      <div class="flashcard"
+           style="cursor:default;min-height:120px;padding:2rem;text-align:left;">
+
+        <div id="mcq-q-label">Question 1</div>
+
+        <div id="mcq-question">—</div>
+
+      </div>
+
+      <div id="mcq-options"
+           style="display:flex;flex-direction:column;gap:10px;margin:20px 0;">
+      </div>
+
+      <div id="mcq-explanation" style="display:none;">
+        <h4>Explanation</h4>
+        <div id="mcq-explanation-text"></div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <button class="btn btn-primary"
+                id="mcq-next-btn"
+                onclick="nextMCQ()"
+                style="display:none;">
+          Next Question →
+        </button>
+
+        <button class="btn btn-outline"
+                onclick="restartMCQ()">
+          Restart Quiz
+        </button>
+      </div>
+
+    </div>
+
+    <div id="mcq-result"
+         style="display:none;text-align:center;padding:3rem;">
+
+      <div id="mcq-result-emoji">🎉</div>
+
+      <h3 id="mcq-result-title">Quiz Complete!</h3>
+
+      <p id="mcq-result-score"></p>
+
+      <button class="btn btn-primary"
+              onclick="restartMCQ()">
+        Try Again
+      </button>
+
+    </div>
+
+  </div>
+</div>
+<!-- ================= END MCQ PAGE ================= -->
+
+
+<!-- ================= ONE DAY BEFORE EXAM ================= -->
+<div class="page" id="page-exam">
+
+  <div class="gen-wrap">
+
+    <h2>⚡ One Day Before Exam</h2>
+
+    <p>
+      Get a quick, focused revision summary for your exam.
+    </p>
+
+    <div class="gen-card">
+
+      <div class="gen-row">
+
+        <input
+          type="text"
+          id="exam-topic"
+          placeholder="e.g. DBMS, Machine Learning">
+
+        <select id="exam-type">
+          <option value="quick">Quick Revision (5 min)</option>
+          <option value="detailed">Detailed Revision (15 min)</option>
+          <option value="flashpoints">Flash Points Only</option>
+        </select>
+
+      </div>
+
+      <button class="btn btn-primary"
+              onclick="generateExamNotes()">
+        ⚡ Generate Revision Notes
+      </button>
+
+    </div>
+
+    <div class="loader" id="exam-loader">
+      <div class="spinner"></div>
+      <p>Preparing revision...</p>
+    </div>
+
+    <div class="result-card" id="exam-result-card">
+
+      <div class="result-header">
+
+        <h3 id="exam-result-title">
+          Revision: —
+        </h3>
+
+        <div class="result-actions">
+
+          <button class="btn btn-outline"
+                  onclick="exportExamPDF()">
+            📄 Export PDF
+          </button>
+
+          <button class="btn btn-outline"
+                  onclick="copyExamNotes()">
+            📋 Copy
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="notes-body"
+           id="exam-notes-body"></div>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- ================= END EXAM PAGE ================= -->
+ <!-- Add this page div to index.html after exam page -->
+<div class="page" id="page-examprep">
+  <div class="gen-wrap">
+    <h2>🎓 AI Exam Preparation</h2>
+    <p>Complete exam preparation with syllabus coverage, important questions, and tips!</p>
+
+    <div class="gen-card">
+      <div class="gen-row">
+        <input type="text" id="exam-prep-topic" placeholder="e.g. DBMS, Machine Learning, Physics…"/>
+        <select id="exam-prep-type">
+          <option value="full">Full Preparation</option>
+          <option value="important">Important Questions Only</option>
+          <option value="tips">Exam Tips & Tricks</option>
+          <option value="syllabus">Syllabus Coverage</option>
+        </select>
+        <select id="exam-prep-level">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate" selected>Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="generateExamPreparation()">🎓 Start Exam Prep</button>
+    </div>
+
+    <div class="loader" id="exam-prep-loader"><div class="spinner"></div><p>Preparing your exam guide…</p></div>
+
+    <div class="result-card" id="exam-prep-result-card">
+      <div class="result-header">
+        <h3 id="exam-prep-title">Exam Prep: —</h3>
+        <div class="result-actions">
+          <button class="btn btn-outline" onclick="exportExamPrepPDF()">📄 Export PDF</button>
+          <button class="btn btn-outline" onclick="copyExamPrep()">📋 Copy</button>
+        </div>
+      </div>
+      <div class="notes-body" id="exam-prep-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-study">
+
+    <div class="gen-wrap">
+
+        <h2>📚 Study Dashboard</h2>
+        <p>Plan your study, manage time and track progress.</p>
+
+        <div class="study-dashboard">
+
+            <!-- LEFT -->
+            <div class="study-left">
+
+                <div class="card">
+                    <h3>📅 Study Planner</h3>
+
+                    <input id="study-topic" type="text" placeholder="Machine Learning">
+
+                    <input id="study-days" type="number" placeholder="Days">
+
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="generateStudyPlan()">📅 Generate</button>
+                        <button class="btn btn-outline" onclick="clearStudyPlan()">🧹 Clear</button>
+                    </div>
+
+                    <div id="study-result"></div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div class="study-right">
+
+                <div class="card">
+                    <h3>⏰ Pomodoro Timer</h3>
+
+                    <div id="timer-display">25:00</div>
+
+                    <div class="timer-buttons">
+                        <button class="btn btn-primary" onclick="startTimer()">▶ Start</button>
+                        <button class="btn btn-outline" onclick="pauseTimer()">⏸ Pause</button>
+                        <button class="btn btn-outline" onclick="resetTimer()">🔄 Reset</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ Quick Actions</h3>
+
+                    <div class="quick-actions">
+                        <button class="btn btn-outline" onclick="showPage('flashcards')">Flashcards</button>
+                        <button class="btn btn-outline" onclick="showPage('mcq')">MCQ Quiz</button>
+                        <button class="btn btn-outline" onclick="showPage('generate')">AI Notes</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📈 Today's Progress</h3>
+
+                    <div class="progress-item">
+                        <label>Study Completion</label>
+                        <progress value="70" max="100"></progress>
+                    </div>
+
+                    <div class="progress-item">
+                        <label>Revision</label>
+                        <progress value="50" max="100"></progress>
+                    </div>
+
+                    <div class="progress-item">
+                        <label>Practice</label>
+                        <progress value="80" max="100"></progress>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    
+<div class="page" id="page-mindmap">
+  <div class="gen-wrap">
+
+    <h2>🗺️ AI Concept Map</h2>
+    <p>Generate a structured concept map for any topic.</p>
+
+    <div class="gen-card">
+      <div class="gen-row">
+        <input
+          type="text"
+          id="mindmap-topic"
+          placeholder="e.g. DBMS, Machine Learning, Python">
+      </div>
+
+      <button class="btn btn-primary" onclick="generateMindMap()">
+        🗺️ Generate Concept Map
+      </button>
+    </div>
+
+    <div class="loader" id="mindmap-loader">
+      <div class="spinner"></div>
+      <p>Generating Concept Map...</p>
+    </div>
+
+    <div class="result-card" id="mindmap-result-card">
+      <div class="result-header">
+        <h3 id="mindmap-title">Concept Map</h3>
+
+        <div class="result-actions">
+          <button class="btn btn-outline" onclick="copyMindMap()">📋 Copy</button>
+          <button class="btn btn-outline" onclick="exportMindMapPDF()">📄 Export PDF</button>
+        </div>
+      </div>
+
+      <pre id="mindmap-body" class="notes-body"></pre>
+    </div>
+
+  </div>
+</div>
+
+<div class="page" id="page-doubt">
+  <div class="gen-wrap">
+
+  <h2>🤖 AI Doubt Solver</h2>
+
+  <!-- INPUTS -->
+  <input id="doubt-topic" placeholder="Enter topic">
+  <br><br>
+  <input id="doubt-question" placeholder="Enter question">
+  <br><br>
+
+  <!-- BUTTON -->
+  <button class="btn btn-primary"onclick="openDoubtSolver()">
+    🤖 Solve Doubt
+  </button>
+
+  <!-- RESULT -->
+   <div class="result-card visible">
+  <pre id="doubt-result"></pre>
+
+</div>
+</div>
+</div>
 
 <div class="toast" id="toast"></div>
 <script src="/static/script.js"></script>
-</body>
+
+  </body>
 </html>
