@@ -51,7 +51,7 @@ const token = localStorage.getItem("token");
 
 // 🚀 Load Notes
 async function loadNotes() {
-  const res = await fetch("http://127.0.0.1:8000/notes", {
+  const res = await fetch("/notes", {
     headers: {
       "Authorization": "Bearer " + token
     }
@@ -77,7 +77,7 @@ async function createNote() {
   const topic = document.getElementById("topic").value;
   const content = document.getElementById("content").value;
 
-  await fetch("http://127.0.0.1:8000/notes", {
+  await fetch("/notes", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -98,7 +98,7 @@ loadNotes();
 <script>
 
 // GET NOTES (READ)
-fetch("http://127.0.0.1:8000/notes", {
+fetch("/notes", {
   method: "GET"
 })
 .then(res => res.json())
@@ -106,7 +106,7 @@ fetch("http://127.0.0.1:8000/notes", {
 
 
 // POST NOTES (CREATE)
-fetch("http://127.0.0.1:8000/notes", {
+fetch("/notes", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"

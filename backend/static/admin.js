@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000";
+const API = "";
 
 // fixed: this page never sent the Authorization header before, so every
 // /admin/* call was rejected as 401/403. It reuses the same token your

@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000";   
+const API = "https://ai-study-notes-generator-z86q.onrender.com";   
 
 /* ── STATE ── */
 let token = localStorage.getItem("token") || null;
